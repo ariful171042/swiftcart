@@ -56,9 +56,6 @@ const App = () => {
     });
   }, []);
 
-  console.log(user);
-  
-
   return loading ? (
     <Loader />
   ) : (
@@ -81,23 +78,23 @@ const App = () => {
             }
           />
           {/* Logged user Routes */}
-          <Route element={<ProtectedRoute isAuthenticated={user ? true : false}/>}>
+          <Route
+            element={<ProtectedRoute isAuthenticated={user ? true : false} />}>
             <Route path="/shipping" element={<Shipping />} />
             <Route path="/orders" element={<OrdersPage />} />
             <Route path="/orders/:id" element={<OrderDeatls />} />
           </Route>
           //Admin Routes
           <Route
-          element={
-            <ProtectedRoute
-              isAuthenticated={true}
-              adminOnly={true}
-              isAdmin={user?.role === "admin"?true : false}
-            />
-          }
-          >
+            element={
+              <ProtectedRoute
+                isAuthenticated={true}
+                adminOnly={true}
+                isAdmin={user?.role === "admin" ? true : false}
+              />
+            }>
             <Route path="/admin/dashboard" element={<Dashboard />} />
-            <Route path="/admin/product" element={<Products />} />
+            <Route path="/admin/products" element={<Products />} />
             <Route path="/admin/customer" element={<Customers />} />
             <Route path="/admin/transaction" element={<Transaction />} />
             {/* Charts */}

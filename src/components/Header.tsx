@@ -15,16 +15,14 @@ import toast from "react-hot-toast";
 const Header = ({ user }: UserResponce) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
-
-
-  const logoutHandler = async() => {
+  const logoutHandler = async () => {
     try {
-      await signOut(auth)
-      
-      toast.success("Sign Out successfully")
+      await signOut(auth);
+
+      toast.success("Sign Out successfully");
       setIsOpen(false);
     } catch (error) {
-      toast.error("Sign Out Faild")
+      toast.error("Sign Out Faild");
     }
   };
   return (
@@ -47,7 +45,9 @@ const Header = ({ user }: UserResponce) => {
           <dialog open={isOpen}>
             <div>
               {user.role === "admin" && (
-                <Link to={"/admin/dashboard"}>Admin</Link>
+                <Link to={"/admin/dashboard"} onClick={() => setIsOpen(false)}>
+                  Admin
+                </Link>
               )}
 
               <Link to={"orders"} onClick={() => setIsOpen(false)}>

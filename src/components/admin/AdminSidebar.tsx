@@ -57,8 +57,7 @@ const AdminSidebar = () => {
                 transition: "all 0.5s",
               }
             : {}
-        }
-      >
+        }>
         <h2>Logo.</h2>
         <DivOne location={location} />
         <DivTwo location={location} />
@@ -85,8 +84,8 @@ const DivOne = ({ location }: { location: Location }) => (
         location={location}
       />
       <Li
-        url="/admin/product"
-        text="Product"
+        url="/admin/products"
+        text="Products"
         Icon={RiShoppingBag3Fill}
         location={location}
       />
@@ -170,14 +169,12 @@ const Li = ({ url, text, location, Icon }: LiProps) => (
       backgroundColor: location.pathname.includes(url)
         ? "rgba(0,115,255,0.1)"
         : "white",
-    }}
-  >
+    }}>
     <Link
       to={url}
       style={{
         color: location.pathname.includes(url) ? "rgb(0,115,255)" : "black",
-      }}
-    >
+      }}>
       <Icon />
       {text}
     </Link>
