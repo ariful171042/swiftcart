@@ -6,7 +6,6 @@ import {
 } from "../redux/api/productAPI";
 import { CustomError } from "../types/api-types";
 import { useState } from "react";
-import { server } from "../redux/store";
 import SkeletonLoader from "../components/SkeletonLoader";
 
 const Search = () => {

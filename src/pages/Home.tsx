@@ -1,16 +1,27 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ProductCard from "../components/ProductCard";
 import { useLatestProductQuery } from "../redux/api/productAPI";
 import toast from "react-hot-toast";
 import SkeletonLoader from "../components/SkeletonLoader";
+import { CartItem } from "../types/types";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../redux/reducer/cartReducer";
 
 const Home = () => {
-const {data,isLoading,isError} = useLatestProductQuery("")
+  const { data, isLoading, isError } = useLatestProductQuery("");
 
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const addToCartHandler = () => {};
+  const addToCartHandler = (cartItem: CartItem) => {
+    if (cartItem.stock < 1) return toast.error("Out of Stock");
 
-  if(isError) toast.error("Cannot Fetch the Products")
+    dispatch(addToCart(cartItem));
+    navigate("/cart");
+    toast.success("Added to cart");
+  };
+
+  if (isError) toast.error("Cannot Fetch the Products");
   return (
     <div className="home">
       <section></section>
@@ -22,19 +33,21 @@ const {data,isLoading,isError} = useLatestProductQuery("")
       </h1>
 
       <main>
-       { isLoading ? (<SkeletonLoader width="80vw"/>) :
-        data?.products.map((product)=>(
-          <ProductCard
-          key={product._id}
-          productId={product._id}
-          price={product.price}
-          stock={product.stock}
-          name={product.category}
-          handler={addToCartHandler}
-          photo={product.photo}
-        />
-        ))
-       }
+        {isLoading ? (
+          <SkeletonLoader width="80vw" />
+        ) : (
+          data?.products.map((product) => (
+            <ProductCard
+              key={product._id}
+              productId={product._id}
+              price={product.price}
+              stock={product.stock}
+              name={product.category}
+              handler={addToCartHandler}
+              photo={product.photo}
+            />
+          ))
+        )}
       </main>
     </div>
   );
