@@ -1,7 +1,11 @@
-import { ReactElement, useState } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import TableHOC from "../components/admin/TableHOC";
 import { Column } from "react-table";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { userReducerInitialState } from "../types/reducerTypes";
+import { useAllOrdersQuery, useMyOrdersQuery } from "../redux/api/orderAPI";
+import SkeletonLoader from "../components/SkeletonLoader";
 
 type DataType = {
   _id: string;
@@ -40,16 +44,38 @@ const columns: Column<DataType>[] = [
 ];
 
 const OrdersPage = () => {
-  const [rows] = useState<DataType[]>([
-    {
-      _id: "dsal;jkfs",
-      amount: 3232,
-      discount: 32,
-      quantity: 32,
-      status: <span className="red">pending</span>,
-      action: <Link to={`/orders/${"dafdff"}`}>view</Link>,
-    },
-  ]);
+  const { user } = useSelector(
+    (state: { userReducer: userReducerInitialState }) => state.userReducer
+  );
+
+  const { isLoading, data, isError, error } = useMyOrdersQuery(user?._id!);
+
+  const [rows, setRows] = useState<DataType[]>([]);
+
+  useEffect(() => {
+    if (data)
+      setRows(
+        data.orders.map((i) => ({
+          _id: i._id,
+          amount: i.total,
+          discount: i.discount,
+          quantity: i.orderItems.length,
+          status: (
+            <span
+              className={
+                i.status === "Processing"
+                  ? "red"
+                  : i.status === "Shipped"
+                  ? "green"
+                  : "purple"
+              }>
+              {i.status}
+            </span>
+          ),
+          action: <Link to={`/admin/transaction/${i._id}`}>Manage</Link>,
+        }))
+      );
+  }, [data]);
   const Table = TableHOC<DataType>(
     columns,
     rows,
@@ -60,7 +86,7 @@ const OrdersPage = () => {
   return (
     <div className="container">
       <h1>My Orders</h1>
-      {Table}
+      {isLoading ? <SkeletonLoader width="100%" length={20} /> : Table}
     </div>
   );
 };

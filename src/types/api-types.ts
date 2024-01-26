@@ -1,11 +1,4 @@
-import {
-  CartItem,
-  Order,
-  OrderItem,
-  Product,
-  ShippingInfo,
-  User,
-} from "./types";
+import { CartItem, Order, Product, ShippingInfo, User } from "./types";
 
 export type CustomError = {
   status: number;
@@ -89,5 +82,5 @@ export type AllOrdersResponse = {
 };
 export type OrderDetailsResponse = {
   success: boolean;
-  orders: Order;
+  order: Order;
 };
