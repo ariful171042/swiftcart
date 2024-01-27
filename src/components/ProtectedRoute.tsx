@@ -1,5 +1,4 @@
-import React from "react";
-import { ReactElement } from "react";
+import React, { ReactElement } from "react";
 import { Navigate, Outlet } from "react-router-dom";
 
 interface ProtectedRouteProps {
@@ -21,14 +20,11 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
     return <Navigate to={redirect} />;
   }
 
- 
   if (adminOnly && !isAdmin) {
     return <Navigate to={redirect} />;
   }
 
-
-
-  return children ? children :<Outlet/>
+  return children ? children : <Outlet />;
 };
 
 export default ProtectedRoute;

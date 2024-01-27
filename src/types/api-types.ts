@@ -28,7 +28,7 @@ export type AllUserResponce = {
 };
 
 export type UserResponce = {
-  user: User;
+  user: User | null;
 };
 
 export type AllProductsResponse = {

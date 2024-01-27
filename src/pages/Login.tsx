@@ -1,10 +1,10 @@
+import { FetchBaseQueryError } from "@reduxjs/toolkit/query/react";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { FcGoogle } from "react-icons/fc";
 import { auth } from "../firebase";
 import { useLoginMutation } from "../redux/api/userAPI";
-import { FetchBaseQueryError } from "@reduxjs/toolkit/query/react";
 import { MessageResponse } from "../types/api-types";
 
 const LoginPage = () => {

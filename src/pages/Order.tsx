@@ -1,11 +1,10 @@
 import { ReactElement, useEffect, useState } from "react";
-import TableHOC from "../components/admin/TableHOC";
-import { Column } from "react-table";
-import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { userReducerInitialState } from "../types/reducerTypes";
-import { useAllOrdersQuery, useMyOrdersQuery } from "../redux/api/orderAPI";
+import { Column } from "react-table";
 import SkeletonLoader from "../components/SkeletonLoader";
+import TableHOC from "../components/admin/TableHOC";
+import { useMyOrdersQuery } from "../redux/api/orderAPI";
+import { userReducerInitialState } from "../types/reducerTypes";
 
 type DataType = {
   _id: string;
@@ -13,7 +12,6 @@ type DataType = {
   discount: number;
   quantity: number;
   status: ReactElement;
-  action: ReactElement;
 };
 
 const columns: Column<DataType>[] = [
@@ -37,10 +35,6 @@ const columns: Column<DataType>[] = [
     Header: "Status",
     accessor: "status",
   },
-  {
-    Header: "Action",
-    accessor: "action",
-  },
 ];
 
 const OrdersPage = () => {
@@ -48,7 +42,7 @@ const OrdersPage = () => {
     (state: { userReducer: userReducerInitialState }) => state.userReducer
   );
 
-  const { isLoading, data, isError, error } = useMyOrdersQuery(user?._id!);
+  const { isLoading, data } = useMyOrdersQuery(user?._id!);
 
   const [rows, setRows] = useState<DataType[]>([]);
 
@@ -72,7 +66,6 @@ const OrdersPage = () => {
               {i.status}
             </span>
           ),
-          action: <Link to={`/admin/transaction/${i._id}`}>Manage</Link>,
         }))
       );
   }, [data]);

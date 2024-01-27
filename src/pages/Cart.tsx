@@ -6,6 +6,7 @@ import CartItemCard from "../components/CartItem";
 import { CartReducerInitialState } from "../types/reducerTypes";
 import { CartItem } from "../types/types";
 
+import axios from "axios";
 import toast from "react-hot-toast";
 import {
   addToCart,
@@ -13,7 +14,6 @@ import {
   discountApplied,
   removeCartItem,
 } from "../redux/reducer/cartReducer";
-import axios from "axios";
 import { server } from "../redux/store";
 
 const Cart = () => {
