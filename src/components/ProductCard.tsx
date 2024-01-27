@@ -23,7 +23,7 @@ const ProductCard = ({
     <div className="productcard">
       <img src={`${server}/${photo}`} alt={name} />
 
-      <p>{name}</p>
+      <p>{name.substring(0, 20)}...</p>
       <span>{price}</span>
 
       <div className="">

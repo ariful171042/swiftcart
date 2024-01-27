@@ -115,7 +115,7 @@ $color3: rgb(0, 104, 136);
 
   img {
     @include square(calc(18.75rem - 3rem));
-    object-fit: cover;
+    object-fit: contain;
     margin: 1rem;
   }
 

@@ -1,7 +1,7 @@
 .product-search-page {
   padding: 2rem;
   @include flex(row, flex-start, stretch, 2rem);
-  min-height: calc(100vh - 6.5vh);
+  min-height: fit-content;
 
   > aside {
     min-width: 20rem;
