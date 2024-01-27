@@ -20,8 +20,6 @@ const PieCharts = () => {
   const ageGroup = data?.charts.usersAgeGroup!;
   const adminCustomer = data?.charts.adminCustomer!;
 
-  const charts = data?.charts;
-
   if (isError) {
     const err = error as CustomError;
     toast.error(err.data.message);
@@ -40,7 +38,7 @@ const PieCharts = () => {
               <div>
                 <PieChart
                   labels={["Processing", "Shipped", "Delivered"]}
-                  data={[12, 9, 13]}
+                  data={[order.processing, order.shipped, order.deliveredOrder]}
                   backgroundColor={[
                     `hsl(110,80%, 80%)`,
                     `hsl(110,80%, 50%)`,
