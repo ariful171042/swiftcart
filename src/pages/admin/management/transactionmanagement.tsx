@@ -15,7 +15,7 @@ import { OrderItem } from "../../../types/types";
 import { responseToast } from "../../../utils/features";
 
 const defaultData = {
-  shippingInfo: { address: "", city: "", state: "", country: "", pinCode: "" },
+  shippingInfo: { address: "", city: "", state: "", country: "", pincode: "" },
 
   status: "",
   subtotal: 0,
@@ -39,7 +39,7 @@ const TransactionManagement = () => {
   const { isLoading, data, isError } = useOrderDetailsQuery(params.id!);
 
   const {
-    shippingInfo: { address, city, state, country, pinCode },
+    shippingInfo: { address, city, state, country, pincode },
     orderItems,
     user: { name },
     status,
@@ -106,7 +106,7 @@ const TransactionManagement = () => {
               <p>Name: {name}</p>
               <p>
                 Address:{" "}
-                {`${address}, ${city}, ${state}, ${country} ${pinCode}`}
+                {`${address}, ${city}, ${state}, ${country} ${pincode}`}
               </p>
               <h5>Amount Info</h5>
               <p>Subtotal: {subtotal}</p>
