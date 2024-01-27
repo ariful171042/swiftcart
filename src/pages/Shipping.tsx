@@ -1,32 +1,64 @@
-import { ChangeEvent, useEffect, useState } from "react";
+import axios from "axios";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import { BiArrowBack } from "react-icons/bi";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { CartReducerInitialState } from "../types/reducerTypes";
-import { useSelector } from "react-redux";
+import { saveShippingInfo } from "../redux/reducer/cartReducer";
+import { RootState, server } from "../redux/store";
 
 const Shipping = () => {
-  const { cartItems } = useSelector(
-    (state: { cartReducer: CartReducerInitialState }) => state.cartReducer
+  const { cartItems, total } = useSelector(
+    (state: RootState) => state.cartReducer
   );
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const [shippingInfo, setSippingInfo] = useState({
     address: "",
     city: "",
     state: "",
     country: "",
-    pinCode: "",
+    pincode: "",
   });
 
-  const changeHandle = (e: ChangeEvent<HTMLInputElement>) => {
+  const changeHandler = (
+    e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     e.preventDefault();
 
     setSippingInfo((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const navigate = useNavigate();
+  const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    dispatch(saveShippingInfo(shippingInfo));
+
+    try {
+      const { data } = await axios.post(
+        `${server}/api/payment/create`,
+        {
+          amount: total,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      navigate("/pay", {
+        state: data.clientSecret,
+      });
+    } catch (error) {
+      toast.error("Something went wrong");
+    }
+  };
 
   useEffect(() => {
-    if (cartItems.length === 0) return navigate("/cart");
+    if (cartItems.length <= 0) return navigate("/cart");
   }, []);
   return (
     <div className="shipping">
@@ -34,7 +66,7 @@ const Shipping = () => {
         <BiArrowBack />
       </button>
 
-      <form action="">
+      <form onSubmit={submitHandler}>
         <h1>Shipping Address</h1>
 
         <input
@@ -43,31 +75,33 @@ const Shipping = () => {
           placeholder="Address"
           name="address"
           value={shippingInfo.address}
-          onChange={changeHandle}
+          onChange={changeHandler}
         />
+
         <input
           required
           type="text"
           placeholder="City"
           name="city"
           value={shippingInfo.city}
-          onChange={changeHandle}
+          onChange={changeHandler}
         />
+
         <input
           required
           type="text"
           placeholder="State"
           name="state"
           value={shippingInfo.state}
-          onChange={changeHandle}
+          onChange={changeHandler}
         />
 
         <select
           name="country"
-          id="country"
           required
-          value={shippingInfo.country}>
-          <option value="bangladesh">Bangladesh</option>
+          value={shippingInfo.country}
+          onChange={changeHandler}>
+          <option value="">Choose Country</option>
           <option value="india">India</option>
         </select>
 
@@ -75,9 +109,9 @@ const Shipping = () => {
           required
           type="number"
           placeholder="Pin Code"
-          name="pinCode"
-          value={shippingInfo.pinCode}
-          onChange={changeHandle}
+          name="pincode"
+          value={shippingInfo.pincode}
+          onChange={changeHandler}
         />
 
         <button type="submit">Pay Now</button>

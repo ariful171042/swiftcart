@@ -18,7 +18,8 @@ const Shipping = lazy(() => import("./pages/Shipping"));
 const LoginPage = lazy(() => import("./pages/Login"));
 const OrdersPage = lazy(() => import("./pages/Order"));
 const OrderDeatls = lazy(() => import("./pages/OrderDeatls"));
-const NotFound = lazy(() => import("./pages/NotFound"));
+const NotFound = lazy(() => import("./pages/OrderDeatls"));
+const Checkout = lazy(() => import("./pages/Checkout"));
 
 //Admin Dashboard
 const Dashboard = lazy(() => import("./pages/admin/dashboard"));
@@ -50,7 +51,7 @@ const App = () => {
     onAuthStateChanged(auth, async (user) => {
       if (user) {
         const data = await getUser(user.uid);
-        dispatch(userExist(data.user));
+        dispatch(userExist(data?.user!));
       } else {
         dispatch(userNotExist());
       }
@@ -84,6 +85,7 @@ const App = () => {
             <Route path="/shipping" element={<Shipping />} />
             <Route path="/orders" element={<OrdersPage />} />
             <Route path="/orders/:id" element={<OrderDeatls />} />
+            <Route path="/pay" element={<Checkout />} />
           </Route>
           //Admin Routes
           <Route
