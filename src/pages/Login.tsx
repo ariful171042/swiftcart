@@ -10,7 +10,7 @@ import { FcGoogle } from "react-icons/fc";
 import { auth } from "../firebase";
 import { getUser, useLoginMutation } from "../redux/api/userAPI";
 import { MessageResponse } from "../types/api-types";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { userExist, userNotExist } from "../redux/reducer/userReducer";
 import { useDispatch } from "react-redux";
 
